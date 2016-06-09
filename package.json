@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src -d build",
     "watch": "npm run build -- -w",
-    "test": "tape build/test/**/*.js | tap-spec"
+    "test": "tape 'build/test/**/*.js' | tap-spec"
   },
   "keywords": [],
   "author": "Chad Fawcett <me@chadf.ca>",
