@@ -80,7 +80,7 @@ export default class Entry {
   }
 
   static fromJSON(doc) {
-    let e = new Entry(doc)
+    let e = new Entry(doc.user, doc)
 
     return e
   }
