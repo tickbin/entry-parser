@@ -1,4 +1,4 @@
-# A parser to take strings that look like "May 4 2-4pm I did some #stuff" and parse out all the useful information like start/end time, date, tags, etc. into an object.
+A parser to take strings that look like "May 4 2-4pm I did some #stuff" and parse out all the useful information like start/end time, date, tags, etc. into an object.
 
 ## Install
 
@@ -8,7 +8,7 @@ npm install tickbin-entry-parser
 
 ## Usage
 
-```
+```javascript
 import Parser from 'tickbin-entry-parser'
 
 //  userId may be undefined if you don't wish to associate entry with user
