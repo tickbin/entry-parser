@@ -1,3 +1,5 @@
+[![Build Status](https://semaphoreci.com/api/v1/jonotron/entry-parser/branches/master/shields_badge.svg)](https://semaphoreci.com/jonotron/entry-parser)
+
 A parser to take strings that look like "May 4 2-4pm I did some #stuff" and parse out all the useful information like start/end time, date, tags, etc. into an object.
 
 ## Install
