@@ -1,6 +1,6 @@
 import test from 'tape'
 import moment from 'moment'
-import Entry, { version } from '../'
+import Entry, { version } from '../entry'
 
 const userId = 'userId'
 
