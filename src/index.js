@@ -35,7 +35,7 @@ export default class Entry {
 
   parse(msg, date) {
     let d = parser(msg, date)
-    if (d.isValid) this.setDates(d)
+    if (d.isRange) this.setDates(d)
   }
 
   parseTags(message) {

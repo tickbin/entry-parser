@@ -15,9 +15,9 @@ parser.refiners.push(dayOverlapRefiner)
 export default function(str, ref) {
   let rslt = parser.parse(str, ref)[0]
   let isRange = rslt && rslt.start && rslt.end
-  let start = rslt.start ? rslt.start.date() : null
-  let end = rslt.end ? rslt.end.date() : null
-  let text = rslt.text
+  let start = rslt && rslt.start ? rslt.start.date() : null
+  let end = rslt && rslt.end ? rslt.end.date() : null
+  let text = rslt ? rslt.text : ''
   let message = str.replace(text, '').trim()
   return { start, end, text, message, isRange, }
 }
