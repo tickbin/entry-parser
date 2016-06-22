@@ -18,5 +18,6 @@ export default function(str, ref) {
   let start = rslt.start ? rslt.start.date() : null
   let end = rslt.end ? rslt.end.date() : null
   let text = rslt.text
+  let message = str.replace(text, '').trim()
   return { start, end, text, message, isRange, }
 }
