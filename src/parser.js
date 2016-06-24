@@ -12,9 +12,15 @@ parser.refiners.push(impliedAMEndRefiner)
 parser.refiners.push(impliedPMStartRefiner)
 parser.refiners.push(dayOverlapRefiner)
 
-export default function(str, ref) {
+export default function(str, ref, timezoneOffset) {
   let rslt = parser.parse(str, ref)[0]
   let isValid = rslt && rslt.start && rslt.end
+
+  if (timezoneOffset && isValid) {
+    rslt.start.assign('timezoneOffset', timezoneOffset)
+    rslt.end.assign('timezoneOffset', timezoneOffset)
+  }
+
   let start = isValid ? rslt.start.date() : null
   let end = isValid ? rslt.end.date() : null
   let text = isValid ? rslt.text : null
