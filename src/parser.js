@@ -16,6 +16,7 @@ export default function(str, ref, timezoneOffset) {
   let rslt = parser.parse(str, ref)[0]
   let isValid = rslt && rslt.start && rslt.end
 
+  //  sets timezone to where user is located
   if (timezoneOffset && isValid) {
     rslt.start.assign('timezoneOffset', timezoneOffset)
     rslt.end.assign('timezoneOffset', timezoneOffset)

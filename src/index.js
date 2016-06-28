@@ -7,9 +7,13 @@ export const hashPattern = /(#\w+[\w-]*)/g
 export const version = 5
 export default class Entry {
   constructor(user, message, opts = {}, timezoneOffset) {
-    let {
-      date = new Date(), 
-    } = opts
+    let { date } = opts
+    if (timezoneOffset && !date) {
+      //  ensure reference date is in users time and zone
+      date = moment().utcOffset(timezoneOffset)
+    } else if (!date) {
+      date = new Date()
+    }
 
     if (typeof message === 'object')
       return this._fromJSON(message)
@@ -18,7 +22,8 @@ export default class Entry {
     this.user = user
     this._id = shortid.generate()
     this.message = message
-    this.ref = date
+    //  ensure ref is a date and not a moment
+    this.ref = new Date(date)
     this.parse(message, date, timezoneOffset)
     this.parseTags(message)
   }
