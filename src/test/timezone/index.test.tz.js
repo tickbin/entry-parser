@@ -1,3 +1,7 @@
+/*
+ * These tests are run in UTC+13 in order to guarantee the parser running in
+ * the next day compared to UTC-12
+ */
 import test from 'tape'
 import moment from 'moment'
 import Entry from '../../'
