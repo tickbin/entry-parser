@@ -4,12 +4,16 @@ import moment from 'moment'
 import parser from './parser'
 
 export const hashPattern = /(#\w+[\w-]*)/g
-export const version = 4
+export const version = 5
 export default class Entry {
-  constructor(user, message, opts = {}) {
-    let {
-      date = new Date(), 
-    } = opts
+  constructor(user, message, opts = {}, timezoneOffset) {
+    let { date } = opts
+    if (timezoneOffset && !date) {
+      //  ensure reference date is in users time and zone
+      date = moment().utcOffset(timezoneOffset)
+    } else if (!date) {
+      date = new Date()
+    }
 
     if (typeof message === 'object')
       return this._fromJSON(message)
@@ -18,8 +22,9 @@ export default class Entry {
     this.user = user
     this._id = shortid.generate()
     this.message = message
-    this.ref = date
-    this.parse(message, date)
+    //  ensure ref is a date and not a moment
+    this.ref = new Date(date)
+    this.parse(message, date, timezoneOffset)
     this.parseTags(message)
   }
 
@@ -33,8 +38,8 @@ export default class Entry {
     return this
   }
 
-  parse(msg, date) {
-    let d = parser(msg, date)
+  parse(msg, date, timezoneOffset) {
+    let d = parser(msg, date, timezoneOffset)
     if (d.isValid) this.setDates(d)
   }
 

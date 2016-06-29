@@ -192,3 +192,11 @@ test('proper holiday names', t => {
   t.end()
 })
 
+test('use timezone offset', t => {
+  let {start, end} = parser('8am-10am', undefined, -480)
+
+  t.equals(moment(start).utc().hour(), 16, 'start is 8am in UTC-08:00')
+  t.equals(moment(end).utc().hour(), 18, 'end is 10am in UTC-10:00')
+
+  t.end()
+})
