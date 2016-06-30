@@ -4,7 +4,7 @@
  */
 import test from 'tape'
 import moment from 'moment'
-import Entry from '../../'
+import { Entry } from '../../'
 
 test('use timezone offset', t => {
   const timezoneOffset = -720
