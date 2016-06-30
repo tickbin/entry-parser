@@ -68,6 +68,19 @@ test('no date defaults to today', t => {
   t.end()
 })
 
+test('set timezone offset', t => {
+  const date = new Date()
+  const msg = '8am-3pm worked on some things'
+  const timezoneOffset = -480
+  const e = new Entry(userId, msg, {}, timezoneOffset)
+  const { start, end } = e.getDates()
+
+  t.equal(moment(start).utc().hour(), 16, 'start is 8am in UTC-08:00')
+  t.equal(moment(end).utc().hour(), 23, 'end is 3pm in UTC-08:00')
+
+  t.end()
+})
+
 test('created date added to entry', t => {
   const today = new Date()  
   const e = new Entry(userId, '8am-5pm working on things')
