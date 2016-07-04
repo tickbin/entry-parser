@@ -43,3 +43,5 @@ npm install
 npm run build
 npm test
 ```
+
+Lead Maintainer: [Jonathan Bowers](https://github.com/jonotron)
