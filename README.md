@@ -44,4 +44,4 @@ npm run build
 npm test
 ```
 
-Lead Maintainer: [Jonathan Bowers](https://github.com/jonotron)
+Lead Maintainer: [Chad Fawcett](https://github.com/chadfawcett)
