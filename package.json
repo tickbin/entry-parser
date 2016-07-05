@@ -1,6 +1,6 @@
 {
-  "name": "tickbin-entry-parser",
-  "version": "0.0.4",
+  "name": "tickbin-parser",
+  "version": "0.0.1",
   "description": "parse strings into entries",
   "main": "build/index.js",
   "scripts": {
@@ -30,10 +30,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tickbin/entry-parser.git"
+    "url": "git+https://github.com/tickbin/parser.git"
   },
   "bugs": {
-    "url": "https://github.com/tickbin/entry-parser/issues"
+    "url": "https://github.com/tickbin/parser/issues"
   },
-  "homepage": "https://github.com/tickbin/entry-parser#readme"
+  "homepage": "https://github.com/tickbin/parser#readme"
 }
