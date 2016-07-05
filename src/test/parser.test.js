@@ -192,6 +192,33 @@ test('proper holiday names', t => {
   t.end()
 })
 
+test('returns original message without time', t => {
+  const { message } = parser('1-2pm did some #stuff')
+
+  t.equal(message, 'did some #stuff', 'stripped out time')
+
+  t.end()
+})
+
+test('no time needed', t => {
+  let {text, message, isRange} = parser('did some #stuff')
+
+  t.equal(text, '', 'there was no time')
+  t.equal(message, 'did some #stuff', 'stripped out no time')
+  t.notOk(isRange, 'isRange is false')
+
+  t.end()
+})
+
+test('one time unit is set to start', t => {
+  let {start, end} = parser('12pm did some #stuff')
+
+  t.equal(start.getHours(), 12, 'start is 12pm')
+  t.notOk(end, 'end is undefined')
+
+  t.end()
+})
+
 test('use timezone offset', t => {
   let {start, end} = parser('8am-10am', undefined, -480)
 

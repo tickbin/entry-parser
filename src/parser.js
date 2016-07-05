@@ -14,16 +14,17 @@ parser.refiners.push(dayOverlapRefiner)
 
 export default function(str, ref, timezoneOffset) {
   let rslt = parser.parse(str, ref)[0]
-  let isValid = rslt && rslt.start && rslt.end
+  let isRange = rslt && rslt.start && rslt.end
 
   //  sets timezone to where user is located
-  if (timezoneOffset && isValid) {
+  if (timezoneOffset && isRange) {
     rslt.start.assign('timezoneOffset', timezoneOffset)
     rslt.end.assign('timezoneOffset', timezoneOffset)
   }
 
-  let start = isValid ? rslt.start.date() : null
-  let end = isValid ? rslt.end.date() : null
-  let text = isValid ? rslt.text : null
-  return { start, end, text, isValid, }
+  let start = rslt && rslt.start ? rslt.start.date() : null
+  let end = rslt && rslt.end ? rslt.end.date() : null
+  let text = rslt ? rslt.text : ''
+  let message = str.replace(text, '').trim()
+  return { start, end, text, message, isRange, }
 }
