@@ -64,7 +64,7 @@ export default class Entry {
     return { start, end }
   }
 
-  toJSON() {
+  toObject() {
     return {
       _id: this._id,
       version: this.version,

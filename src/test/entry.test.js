@@ -84,7 +84,7 @@ test('set timezone offset', t => {
 test('created date added to entry', t => {
   const today = new Date()  
   const e = new Entry(userId, '8am-5pm working on things')
-  const json = e.toJSON()
+  const json = e.toObject()
 
   t.ok(e.ref, 'ref is set')
   t.ok(moment(today).isSame(e.ref, 'second'), 'ref date is today')
@@ -96,7 +96,7 @@ test('created date added to entry', t => {
 test('passed reference date added to entry', t => {
   const date = new Date(2016, 0, 1, 12, 15, 30) // Jan 1, 2016 12:15:30
   const e = new Entry(userId, '8am-5pm working on things', {date})
-  const json = e.toJSON()
+  const json = e.toObject()
 
   t.ok(e.ref, 'ref is set')
   t.ok(moment(date).isSame(e.ref, 'second'), 'ref date is Jan 1')
@@ -210,10 +210,10 @@ test('parsed time string is present', t => {
   t.end()
 })
 
-test('toJSON() returns a json obj', t => {
+test('toObject() returns a json obj', t => {
   const e = new Entry(userId, '8am-10am worked on some things #tag1 #tag2')
 
-  const json = e.toJSON()
+  const json = e.toObject()
   t.equals(json.message, '8am-10am worked on some things #tag1 #tag2', 'message')
   t.ok(json.hasDates, 'hasDates')
   t.equals(e.start, json.start, 'start')
@@ -234,7 +234,7 @@ test('toJSON() returns a json obj', t => {
 test('fromJSON() will create an Entry from existing document', t => {
   const date = new Date('Jan 25, 2015 0:00:00')
   const existing = new Entry(userId, '8am-10am worked on things #tag1 #tag2', {date})
-  const json = existing.toJSON()
+  const json = existing.toObject()
   const e = Entry.fromJSON(json)
 
   t.equals(existing._id, e._id, '_id matches')
