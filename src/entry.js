@@ -16,7 +16,7 @@ export default class Entry {
     }
 
     if (typeof message === 'object')
-      return this._fromJSON(message)
+      return this._fromObject(message)
 
     this.version = version
     this.user = user
@@ -28,7 +28,7 @@ export default class Entry {
     this.parseTags(message)
   }
 
-  _fromJSON(doc) {
+  _fromObject(doc) {
     Object.assign(this, doc)
     const start = new Date(this.start)
     const end = new Date(this.end)
@@ -64,7 +64,7 @@ export default class Entry {
     return { start, end }
   }
 
-  toJSON() {
+  toObject() {
     return {
       _id: this._id,
       version: this.version,
@@ -84,7 +84,7 @@ export default class Entry {
     } 
   }
 
-  static fromJSON(doc) {
+  static fromObject(doc) {
     let e = new Entry(doc.user, doc)
 
     return e
