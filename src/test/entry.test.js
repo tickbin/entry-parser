@@ -231,11 +231,11 @@ test('toObject() returns a json obj', t => {
   t.end()
 })
 
-test('fromJSON() will create an Entry from existing document', t => {
+test('fromObject() will create an Entry from existing document', t => {
   const date = new Date('Jan 25, 2015 0:00:00')
   const existing = new Entry(userId, '8am-10am worked on things #tag1 #tag2', {date})
   const json = existing.toObject()
-  const e = Entry.fromJSON(json)
+  const e = Entry.fromObject(json)
 
   t.equals(existing._id, e._id, '_id matches')
   t.equals(existing.version, e.version, 'version matches')
