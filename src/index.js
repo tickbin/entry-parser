@@ -1,4 +1,4 @@
-import Entry from './entry'
+import Entry, { hashPattern, version } from './entry'
 import parser from './parser'
 
-export { Entry, parser }
+export { Entry, hashPattern, version, parser }
