@@ -227,3 +227,15 @@ test('use timezone offset', t => {
 
   t.end()
 })
+
+test('isRange should be a boolean', t => {
+  //  Test TRUE
+  let { isRange: isTrue } = parser('8am-10am')
+  t.equal(typeof(isTrue), 'boolean', 'is a boolean when true')
+
+  //  Test FALSE
+  let { isRange: isFalse } = parser('8am')
+  t.equal(typeof(isFalse), 'boolean', 'is a boolean when false')
+
+  t.end()
+})
