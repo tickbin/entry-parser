@@ -6,7 +6,7 @@ import parser from './parser'
 export const hashPattern = /(#\w+[\w-]*)/g
 export const version = 5
 export default class Entry {
-  constructor(user, message, opts = {}, timezoneOffset) {
+  constructor(user, originalMessage, opts = {}, timezoneOffset) {
     let { date } = opts
     if (timezoneOffset && !date) {
       //  ensure reference date is in users time and zone
@@ -15,17 +15,17 @@ export default class Entry {
       date = new Date()
     }
 
-    if (typeof message === 'object')
-      return this._fromObject(message)
+    if (typeof originalMessage === 'object')
+      return this._fromObject(originalMessage)
 
     this.version = version
     this.user = user
     this._id = shortid.generate()
-    this.message = message
+    this.original= originalMessage
     //  ensure ref is a date and not a moment
     this.ref = new Date(date)
-    this.parse(message, date, timezoneOffset)
-    this.parseTags(message)
+    this.parse(originalMessage, date, timezoneOffset)
+    this.parseTags(originalMessage)
   }
 
   _fromObject(doc) {
@@ -70,7 +70,7 @@ export default class Entry {
       version: this.version,
       ref: this.ref,
       user: this.user,
-      message: this.message,
+      original: this.original,
       hasDates: this.hasDates,
       start: this.start,
       startArr: this.startArr,

@@ -16,7 +16,7 @@ test('simple entry construction 8am-10pm', t => {
   const e = new Entry(userId, '8am-10am worked on things')
   const { start, end } = e.getDates()
   t.ok(e.hasDates, 'entry has dates')
-  t.equals(e.message, '8am-10am worked on things')
+  t.equals(e.original, '8am-10am worked on things')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 10, 'start is 10am')
 
@@ -27,7 +27,7 @@ test('simple entry construction 8am-5pm', t => {
   const e = new Entry(userId, '8am-5pm worked on things')
   const { start, end } = e.getDates()
   t.ok(e.hasDates, 'entry has dates')
-  t.equals(e.message, '8am-5pm worked on things')
+  t.equals(e.original, '8am-5pm worked on things')
   t.equals(start.getHours(), 8, 'start is 8am')
   t.equals(end.getHours(), 17, 'end is 5pm')
 
@@ -214,7 +214,7 @@ test('toObject() returns an object', t => {
   const e = new Entry(userId, '8am-10am worked on some things #tag1 #tag2')
 
   const obj = e.toObject()
-  t.equals(obj.message, '8am-10am worked on some things #tag1 #tag2', 'message')
+  t.equals(obj.original, '8am-10am worked on some things #tag1 #tag2', 'original')
   t.ok(obj.hasDates, 'hasDates')
   t.equals(e.start, obj.start, 'start')
   t.equals(e.end, obj.end, 'end')
@@ -239,7 +239,7 @@ test('fromObject() will create an Entry from existing document', t => {
 
   t.equals(existing._id, e._id, '_id matches')
   t.equals(existing.version, e.version, 'version matches')
-  t.equals(existing.message, e.message, 'message matches')
+  t.equals(existing.original, e.original, 'original matches')
   t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.start).toString(), moment(e.start).toString(), 'start matches')
   t.equals(moment(existing.end).toString(), moment(e.end).toString(), 'end matches')
