@@ -5,21 +5,22 @@ A parser to take strings that look like "May 4 2-4pm I did some #stuff" and pars
 ## Install
 
 ```
-npm install tickbin-entry-parser
+npm install tickbin-parser
 ```
 
 ## Usage
 
 ```javascript
-import Parser from 'tickbin-entry-parser'
+import { Entry, parser } from 'tickbin-parser'
 
 //  userId may be undefined if you don't wish to associate entry with user
-const entry = new Parser(userId, 'May 4 2-4pm I did some #stuff')
+const entry = new Entry(userId, 'May 4 2-4pm I did some #stuff')
 //  entry = {
-//    version: 4,
+//    version: 5,
 //    user: undefined,
 //    _id: 'H1yifd_4',
-//    message: 'May 4 2-4pm I did some #stuff',
+//    original: 'May 4 2-4pm I did some #stuff',
+//    message: 'I did some #stuff',
 //    ref: Fri Jun 10 2016 10:02:14 GMT-0700 (PDT),
 //    hasDates: true,
 //    start: Wed May 04 2016 14:00:00 GMT-0700 (PDT),
@@ -33,6 +34,15 @@ const entry = new Parser(userId, 'May 4 2-4pm I did some #stuff')
 //      to: Wed May 04 2016 16:00:00 GMT-0700 (PDT)
 //    },
 //    tags: Set { '#stuff' }
+//  }
+
+const parse = parser('8am-10am test message')
+//  parse = {
+//    start: Thu Jul 21 2016 08:00:00 GMT-0700 (PDT),
+//    end: Thu Jul 21 2016 10:00:00 GMT-0700 (PDT),
+//    text: '8am-10am',
+//    message: 'test message',
+//    isRange: true
 //  }
 ```
 
