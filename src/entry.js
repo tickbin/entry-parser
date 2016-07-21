@@ -34,14 +34,14 @@ export default class Entry {
     const end = new Date(this.end)
     const text = this.time
     const message = this.message
-    this.setDates({start, end, text, message})
+    this.setParsedFields({start, end, text, message})
     this.tags = new Set(doc.tags)
     return this
   }
 
   parse(msg, date, timezoneOffset) {
     let d = parser(msg, date, timezoneOffset)
-    if (d.isRange) this.setDates(d)
+    if (d.isRange) this.setParsedFields(d)
   }
 
   parseTags(message) {
@@ -49,7 +49,7 @@ export default class Entry {
     this.tags = new Set(message.match(hashPattern))
   }
 
-  setDates(opts) {
+  setParsedFields(opts) {
     this.hasDates = true
     this.start = opts.start
     this.startArr = moment(this.start).utc().toArray()
