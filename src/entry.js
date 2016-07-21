@@ -33,7 +33,8 @@ export default class Entry {
     const start = new Date(this.start)
     const end = new Date(this.end)
     const text = this.time
-    this.setDates({start, end, text})
+    const message = this.message
+    this.setDates({start, end, text, message})
     this.tags = new Set(doc.tags)
     return this
   }
@@ -55,6 +56,7 @@ export default class Entry {
     this.end = opts.end
     this.endArr = moment(this.end).utc().toArray()
     this.time = opts.text
+    this.message = opts.message
     this.duration = new Duration(this.start, this.end)
   }
 
@@ -71,6 +73,7 @@ export default class Entry {
       ref: this.ref,
       user: this.user,
       original: this.original,
+      message: this.message,
       hasDates: this.hasDates,
       start: this.start,
       startArr: this.startArr,

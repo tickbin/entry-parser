@@ -215,6 +215,7 @@ test('toObject() returns an object', t => {
 
   const obj = e.toObject()
   t.equals(obj.original, '8am-10am worked on some things #tag1 #tag2', 'original')
+  t.equals(obj.message, 'worked on some things #tag1 #tag2', 'message')
   t.ok(obj.hasDates, 'hasDates')
   t.equals(e.start, obj.start, 'start')
   t.equals(e.end, obj.end, 'end')
@@ -240,6 +241,7 @@ test('fromObject() will create an Entry from existing document', t => {
   t.equals(existing._id, e._id, '_id matches')
   t.equals(existing.version, e.version, 'version matches')
   t.equals(existing.original, e.original, 'original matches')
+  t.equals(existing.message, e.message, 'message matches')
   t.equals(e.tags.size, 2, '2 tags')
   t.equals(moment(existing.start).toString(), moment(e.start).toString(), 'start matches')
   t.equals(moment(existing.end).toString(), moment(e.end).toString(), 'end matches')
@@ -248,4 +250,11 @@ test('fromObject() will create an Entry from existing document', t => {
 
   t.end()
 
+})
+
+test('return message with time stripped out', t => {
+  const e = new Entry(userId, '8-10am worked on some things #tag1 #tag2')
+
+  t.equals(e.message, 'worked on some things #tag1 #tag2')
+  t.end()
 })
