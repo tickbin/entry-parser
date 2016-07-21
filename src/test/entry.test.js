@@ -258,3 +258,10 @@ test('return message with time stripped out', t => {
   t.equals(e.message, 'worked on some things #tag1 #tag2')
   t.end()
 })
+
+test('return message with date stripped out', t => {
+  const e = new Entry(userId, 'Feb 1 8-10am worked on some things #tag1 #tag2')
+
+  t.equals(e.message, 'worked on some things #tag1 #tag2')
+  t.end()
+})
