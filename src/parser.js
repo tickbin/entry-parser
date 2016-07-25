@@ -14,7 +14,8 @@ parser.refiners.push(dayOverlapRefiner)
 
 export default function(str, ref, timezoneOffset) {
   let rslt = parser.parse(str, ref)[0]
-  let isRange = rslt && rslt.start && rslt.end
+  //  ... && true || false makes sure isRange is a boolean
+  let isRange = (rslt && rslt.start && rslt.end && true) || false
 
   //  sets timezone to where user is located
   if (timezoneOffset && isRange) {

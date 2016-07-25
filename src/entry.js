@@ -6,7 +6,7 @@ import parser from './parser'
 export const hashPattern = /(#\w+[\w-]*)/g
 export const version = 5
 export default class Entry {
-  constructor(user, message, opts = {}, timezoneOffset) {
+  constructor(user, originalMessage, opts = {}, timezoneOffset) {
     let { date } = opts
     if (timezoneOffset && !date) {
       //  ensure reference date is in users time and zone
@@ -15,17 +15,17 @@ export default class Entry {
       date = new Date()
     }
 
-    if (typeof message === 'object')
-      return this._fromObject(message)
+    if (typeof originalMessage === 'object')
+      return this._fromObject(originalMessage)
 
     this.version = version
     this.user = user
     this._id = shortid.generate()
-    this.message = message
+    this.original= originalMessage
     //  ensure ref is a date and not a moment
     this.ref = new Date(date)
-    this.parse(message, date, timezoneOffset)
-    this.parseTags(message)
+    this.parse(originalMessage, date, timezoneOffset)
+    this.parseTags(originalMessage)
   }
 
   _fromObject(doc) {
@@ -33,14 +33,15 @@ export default class Entry {
     const start = new Date(this.start)
     const end = new Date(this.end)
     const text = this.time
-    this.setDates({start, end, text})
+    const message = this.message
+    this.setParsedFields({start, end, text, message})
     this.tags = new Set(doc.tags)
     return this
   }
 
   parse(msg, date, timezoneOffset) {
     let d = parser(msg, date, timezoneOffset)
-    if (d.isRange) this.setDates(d)
+    if (d.isRange) this.setParsedFields(d)
   }
 
   parseTags(message) {
@@ -48,13 +49,14 @@ export default class Entry {
     this.tags = new Set(message.match(hashPattern))
   }
 
-  setDates(opts) {
+  setParsedFields(opts) {
     this.hasDates = true
     this.start = opts.start
     this.startArr = moment(this.start).utc().toArray()
     this.end = opts.end
     this.endArr = moment(this.end).utc().toArray()
     this.time = opts.text
+    this.message = opts.message
     this.duration = new Duration(this.start, this.end)
   }
 
@@ -70,6 +72,7 @@ export default class Entry {
       version: this.version,
       ref: this.ref,
       user: this.user,
+      original: this.original,
       message: this.message,
       hasDates: this.hasDates,
       start: this.start,
