@@ -16,7 +16,7 @@ import { Entry, parser } from 'tickbin-parser'
 //  userId may be undefined if you don't wish to associate entry with user
 const entry = new Entry(userId, 'May 4 2-4pm I did some #stuff')
 //  entry = {
-//    version: 5,
+//    version: 6,
 //    user: undefined,
 //    _id: 'H1yifd_4',
 //    original: 'May 4 2-4pm I did some #stuff',
