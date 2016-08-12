@@ -25,6 +25,10 @@ function refine (text, results, opt) {
     if (!result.start || !result.end)
       return result
 
+    const end = result.end.moment()
+    if (moment(end).startOf('day').isSame(end))
+      return result
+
     if (moment(result.ref).isSame(today, 'day')
         && result.start.get('meridiem') === 1
         && result.end.get('meridiem') === 0) {
