@@ -4,7 +4,7 @@
  */
 import test from 'tape'
 import moment from 'moment'
-import { Entry } from '../../'
+import { Entry, durationParser } from '../../'
 
 test('use timezone offset', t => {
   const timezoneOffset = -720
@@ -25,4 +25,21 @@ test('use timezone offset', t => {
   )
 
   t.end()
+})
+
+test('Test durationParser', t => {
+  t.test('use timezone offset', t => {
+    const timezoneOffset = -720
+    const { date } = durationParser('5 hours', undefined, timezoneOffset)
+
+    const yesterday = moment().subtract(1, 'day')
+
+    t.equals(
+      moment(date).utcOffset(timezoneOffset).date(),
+      yesterday.date(),
+      'date is yesterday in relation to server'
+    )
+
+    t.end()
+  })
 })
