@@ -58,3 +58,10 @@ test('units in decimal: 1.5 hours 1.5 minutes', t => {
 
   t.end()
 })
+
+test('returns original message without date or duration', t => {
+  const { message } = durationParser('yesterday 5 hours all the #things')
+  t.equal(message, 'all the #things', 'stripped date and time from message')
+
+  t.end()
+})
