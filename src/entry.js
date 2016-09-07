@@ -35,7 +35,17 @@ export default class Entry {
     const end = new Date(this.end)
     const text = this.time
     const message = this.message
-    this.setParsedFields({start, end, text, message})
+
+    if (doc.createdFrom === 'duration')
+      this.setParsedDurationFields({
+        date: start,
+        time: text,
+        message,
+        duration: doc.duration.seconds
+      })
+    else
+      this.setParsedFields({start, end, text, message})
+
     this.tags = new Set(doc.tags)
     return this
   }
@@ -44,7 +54,7 @@ export default class Entry {
     const durationParse = durationParser(msg, timezoneOffset)
 
     if (durationParse.duration > 0) {
-      durationParse.time = msg.replace(durationParse.message, '')
+      durationParse.time = msg.replace(durationParse.message, '').trim()
       this.setParsedDurationFields(durationParse)
     } else {
       let d = parser(msg, date, timezoneOffset)
@@ -88,6 +98,7 @@ export default class Entry {
     return {
       _id: this._id,
       version: this.version,
+      createdFrom: this.createdFrom,
       ref: this.ref,
       user: this.user,
       original: this.original,
