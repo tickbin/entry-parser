@@ -30,7 +30,7 @@ test('use timezone offset', t => {
 test('Test durationParser', t => {
   t.test('use timezone offset', t => {
     const timezoneOffset = -720
-    const { date } = durationParser('5 hours', undefined, timezoneOffset)
+    const { date } = durationParser('5 hours', timezoneOffset)
 
     const yesterday = moment().subtract(1, 'day')
 
