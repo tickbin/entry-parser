@@ -2,6 +2,7 @@ import Duration from 'duration'
 import shortid from 'shortid'
 import moment from 'moment'
 import parser from './parser'
+import durationParser from './durationParser'
 
 export const hashPattern = /(#\w+[\w-]*)/g
 export const version = 6
@@ -40,8 +41,15 @@ export default class Entry {
   }
 
   parse(msg, date, timezoneOffset) {
-    let d = parser(msg, date, timezoneOffset)
-    if (d.isRange) this.setParsedFields(d)
+    const durationParse = durationParser(msg, timezoneOffset)
+
+    if (durationParse.duration > 0) {
+      durationParse.time = msg.replace(durationParse.message, '')
+      this.setParsedDurationFields(durationParse)
+    } else {
+      let d = parser(msg, date, timezoneOffset)
+      if (d.isRange) this.setParsedFields(d)
+    }
   }
 
   parseTags(message) {
@@ -49,7 +57,17 @@ export default class Entry {
     this.tags = new Set(message.match(hashPattern))
   }
 
+  setParsedDurationFields(opts) {
+    this.createdFrom = 'duration'
+    this.start = opts.date
+    this.startArr = moment(this.start).utc().toArray()
+    this.time = opts.time
+    this.message = opts.message
+    this.duration = { seconds: opts.duration }
+  }
+
   setParsedFields(opts) {
+    this.createdFrom = 'calendar'
     this.hasDates = true
     this.start = opts.start
     this.startArr = moment(this.start).utc().toArray()

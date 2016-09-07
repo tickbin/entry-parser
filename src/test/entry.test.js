@@ -265,3 +265,23 @@ test('return message with date stripped out', t => {
   t.equals(e.message, 'worked on some things #tag1 #tag2')
   t.end()
 })
+
+test('entry by duration', t => {
+  const e = new Entry(userId, '4 hours worked on things')
+  const { start } = e.getDates()
+  t.equals(e.createdFrom, 'duration', 'created from duration')
+  t.equals(e.original, '4 hours worked on things', 'sets orignal message')
+  t.equals(moment.utc(e.startArr).hour(), 12, 'start is noon in utc')
+  t.equals(e.duration.seconds, 14400, 'duration is 4 hours')
+
+  t.end()
+})
+
+test('entry by duration with date', t => {
+  const e = new Entry(userId, 'yesterday 4 hours worked on things')
+  const { start } = e.getDates()
+
+  t.equals(moment(e.startArr).hour(), 12, 'start is noon in utc')
+
+  t.end()
+})
