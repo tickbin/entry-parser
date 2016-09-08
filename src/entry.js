@@ -5,7 +5,7 @@ import parser from './parser'
 import durationParser from './durationParser'
 
 export const hashPattern = /(#\w+[\w-]*)/g
-export const version = 6
+export const version = 7
 export default class Entry {
   constructor(user, originalMessage, opts = {}, timezoneOffset) {
     let { date } = opts
