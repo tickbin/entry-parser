@@ -73,7 +73,10 @@ export default class Entry {
     this.startArr = moment(this.start).utc().toArray()
     this.time = opts.time
     this.message = opts.message
-    this.duration = { seconds: opts.duration }
+    this.duration = {
+      minutes: Math.round(opts.duration / 60),
+      seconds: opts.duration
+    }
   }
 
   setParsedFields(opts) {
