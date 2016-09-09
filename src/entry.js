@@ -2,9 +2,10 @@ import Duration from 'duration'
 import shortid from 'shortid'
 import moment from 'moment'
 import parser from './parser'
+import durationParser from './durationParser'
 
 export const hashPattern = /(#\w+[\w-]*)/g
-export const version = 6
+export const version = 7
 export default class Entry {
   constructor(user, originalMessage, opts = {}, timezoneOffset) {
     let { date } = opts
@@ -34,14 +35,31 @@ export default class Entry {
     const end = new Date(this.end)
     const text = this.time
     const message = this.message
-    this.setParsedFields({start, end, text, message})
+
+    if (doc.createdFrom === 'duration')
+      this.setParsedDurationFields({
+        date: start,
+        time: text,
+        message,
+        duration: doc.duration.seconds
+      })
+    else
+      this.setParsedFields({start, end, text, message})
+
     this.tags = new Set(doc.tags)
     return this
   }
 
   parse(msg, date, timezoneOffset) {
-    let d = parser(msg, date, timezoneOffset)
-    if (d.isRange) this.setParsedFields(d)
+    const durationParse = durationParser(msg, timezoneOffset)
+
+    if (durationParse.duration > 0) {
+      durationParse.time = msg.replace(durationParse.message, '').trim()
+      this.setParsedDurationFields(durationParse)
+    } else {
+      let d = parser(msg, date, timezoneOffset)
+      if (d.isRange) this.setParsedFields(d)
+    }
   }
 
   parseTags(message) {
@@ -49,7 +67,20 @@ export default class Entry {
     this.tags = new Set(message.match(hashPattern))
   }
 
+  setParsedDurationFields(opts) {
+    this.createdFrom = 'duration'
+    this.start = opts.date
+    this.startArr = moment(this.start).utc().toArray()
+    this.time = opts.time
+    this.message = opts.message
+    this.duration = {
+      minutes: Math.round(opts.duration / 60),
+      seconds: opts.duration
+    }
+  }
+
   setParsedFields(opts) {
+    this.createdFrom = 'calendar'
     this.hasDates = true
     this.start = opts.start
     this.startArr = moment(this.start).utc().toArray()
@@ -70,6 +101,7 @@ export default class Entry {
     return {
       _id: this._id,
       version: this.version,
+      createdFrom: this.createdFrom,
       ref: this.ref,
       user: this.user,
       original: this.original,
