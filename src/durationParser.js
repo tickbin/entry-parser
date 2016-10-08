@@ -23,18 +23,24 @@ export default function(str, timezoneOffset) {
 
   let momentDate = moment()
 
+  //  Make sure momentDate is in user's timezone
+  if (timezoneOffset)
+    momentDate.utcOffset(timezoneOffset)
+
   const parsedDate = chrono.parse(str)[0]
 
   if (parsedDate) {
-    parsedDate.start.assign('timezoneOffset', 0)
+    parsedDate.start.assign('timezoneOffset', timezoneOffset)
     momentDate = parsedDate
     .start
     .moment()
   }
 
   //  Make sure date is noon in UTC
+  const originalDayOfMonth = momentDate.date()
   const date = momentDate
   .utc()
+  .date(originalDayOfMonth)
   .hour(12)
   .minute(0)
   .second(0)
