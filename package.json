@@ -19,7 +19,7 @@
     "duration": "^0.2.0",
     "chrono-node": "^1.2.3",
     "moment": "^2.13.0",
-    "es6-error": "^3.0.0",
+    "es6-error": "^4.0.0",
     "shortid": "^2.2.6"
   },
   "devDependencies": {
