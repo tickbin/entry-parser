@@ -65,3 +65,87 @@ test('returns original message without date or duration', t => {
 
   t.end()
 })
+
+test('supports various unit formats', t => {
+  t.test('parses minutes', t => {
+    const { duration } = durationParser('30 minutes')
+    t.equal(duration, 1800, 'parsed duration')
+    const { duration: duration2 } = durationParser('30minutes')
+    t.equal(duration2, 1800, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses minute', t => {
+    const { duration } = durationParser('30 minute')
+    t.equal(duration, 1800, 'parsed duration')
+    const { duration: duration2 } = durationParser('30minute')
+    t.equal(duration2, 1800, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses mins', t => {
+    const { duration } = durationParser('30 mins')
+    t.equal(duration, 1800, 'parsed duration')
+    const { duration: duration2 } = durationParser('30mins')
+    t.equal(duration2, 1800, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses min', t => {
+    const { duration } = durationParser('30 min')
+    t.equal(duration, 1800, 'parsed duration')
+    const { duration: duration2 } = durationParser('30min')
+    t.equal(duration2, 1800, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses m', t => {
+    const { duration } = durationParser('30 m')
+    t.equal(duration, 1800, 'parsed duration')
+    const { duration: duration2 } = durationParser('30m')
+    t.equal(duration2, 1800, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses hours', t => {
+    const { duration } = durationParser('1 hours')
+    t.equal(duration, 3600, 'parsed duration')
+    const { duration: duration2 } = durationParser('1hours')
+    t.equal(duration2, 3600, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses hour', t => {
+    const { duration } = durationParser('1 hour')
+    t.equal(duration, 3600, 'parsed duration')
+    const { duration: duration2 } = durationParser('1hour')
+    t.equal(duration2, 3600, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses hrs', t => {
+    const { duration } = durationParser('1 hrs')
+    t.equal(duration, 3600, 'parsed duration')
+    const { duration: duration2 } = durationParser('1hrs')
+    t.equal(duration2, 3600, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses hr', t => {
+    const { duration } = durationParser('1 hr')
+    t.equal(duration, 3600, 'parsed duration')
+    const { duration: duration2 } = durationParser('1hr')
+    t.equal(duration2, 3600, 'parsed duration')
+    t.end()
+  })
+
+  t.test('parses h', t => {
+    const { duration } = durationParser('1 h')
+    t.equal(duration, 3600, 'parsed duration')
+    const { duration: duration2 } = durationParser('1h')
+    t.equal(duration2, 3600, 'parsed duration')
+    t.end()
+  })
+
+  t.end()
+})
