@@ -307,3 +307,26 @@ test('entry by duration with date', t => {
 
   t.end()
 })
+
+test('entry duration whitespace', t => {
+  let e
+  e = new Entry(userId, '1-2pm ate 4 hotdogs')
+  t.equal(e.createdFrom, 'calendar', 'used 1-2pm instead of 4 h')
+
+  e = new Entry(userId, '1-2pm ate 3 mini dougnuts')
+  t.equal(e.createdFrom, 'calendar', 'used 1-2pm instead of 3 m')
+
+  try {
+    e = new Entry(userId, '2:30-3:30 meeting')
+  } catch(err) {
+    t.equal(err.name, 'NoMeridiemError', 'threw error instead of using 30 m')
+  }
+
+  e = new Entry(userId, '9am-10 Researching SMS online S3 hosting options')
+  t.equal(e.createdFrom, 'calendar', 'used 9am-10 instead of 3 h')
+
+  e = new Entry(userId, '1:30-2:45pm 2 month planning meeting')
+  t.equal(e.createdFrom, 'calendar', 'used 1:30-2:45pm instead of 2 m')
+
+  t.end()
+})

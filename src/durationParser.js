@@ -2,9 +2,9 @@ import moment from 'moment'
 import chrono from 'chrono-node'
 
 export default function(str, timezoneOffset) {
-  const patternHour   = /(\d*\.{0,1}\d+)\s*(hours|hour|hrs|hr|h)/i;
-  const patternMin    = /(\d*\.{0,1}\d+)\s*(minutes|minute|mins|min|m)/i;
-  const patternChrono = /(\d*):(\d+)\s*(hours|hour|hrs|hr|h)/i
+  const patternHour   = /(\d*\.{0,1}\d+)\s*(hours|hour|hrs|hr|h)\b/i;
+  const patternMin    = /(\d*\.{0,1}\d+)\s*(minutes|minute|mins|min|m)\b/i;
+  const patternChrono = /(\d*):(\d+)\s*(hours|hour|hrs|hr|h)\b/i
 
   const hoursMatch   = str.match(patternHour)
   const minutesMatch = str.match(patternMin)

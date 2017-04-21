@@ -66,6 +66,16 @@ test('returns original message without date or duration', t => {
   t.end()
 })
 
+test('does not take the first letter from other words', t => {
+  const { duration: dh } = durationParser('2 houses')
+  t.equal(dh, 0, 'does not take h from \'houses\'')
+  const { duration: dm } = durationParser('2.5 mouses')
+  t.equal(dm, 0, 'does not take m from \'mouses\'')
+  const { duration: dc } = durationParser('2:30 houses')
+  t.equal(dc, 0, 'does not take h from \'houses\'')
+  t.end()
+})
+
 test('supports various unit formats', t => {
   t.test('parses minutes', t => {
     const { duration } = durationParser('30 minutes')
