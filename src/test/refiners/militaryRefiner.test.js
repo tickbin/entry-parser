@@ -94,3 +94,18 @@ test('supports specifying an implied date', t => {
 
   t.end()
 })
+
+test('supports specifying a mm/dd/yy date format', t => {
+  const results = parser.parse('01/01/17 1100-2030')
+
+  t.equals(results[0].start.get('day'), 1, 'day is the 1st')
+  t.equals(results[0].start.get('month'), 1, 'month 1')
+  t.equals(results[0].start.get('year'), 2017, 'year is 2017')
+
+  t.equals(results[0].start.get('hour'), 11, 'start is 11 am')
+  t.equals(results[0].start.get('minute'), 0, 'start is 11:00 am')
+  t.equals(results[0].end.get('hour'), 20, 'end is 8 pm')
+  t.equals(results[0].end.get('minute'), 30, 'end is 8:30 pm')
+
+  t.end()
+})
