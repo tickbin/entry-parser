@@ -1,7 +1,11 @@
 import moment from 'moment'
 import chrono from 'chrono-node'
+import durationRefiner from './refiners/durationRefiner'
 
 export default function(str, timezoneOffset) {
+  const parserWithDurationRefiner = new chrono.Chrono()
+  parserWithDurationRefiner.refiners.push(durationRefiner)
+
   const patternHour   = /(\d*\.{0,1}\d+)\s*(hours|hour|hrs|hr|h)\b/i;
   const patternMin    = /(\d*\.{0,1}\d+)\s*(minutes|minute|mins|min|m)\b/i;
   const patternChrono = /(\d*):(\d+)\s*(hours|hour|hrs|hr|h)\b/i
@@ -27,7 +31,7 @@ export default function(str, timezoneOffset) {
   if (timezoneOffset)
     momentDate.utcOffset(timezoneOffset)
 
-  const parsedDate = chrono.parse(str)[0]
+  const parsedDate = parserWithDurationRefiner.parse(str)[0]
 
   if (parsedDate) {
     parsedDate.start.assign('timezoneOffset', timezoneOffset)
