@@ -1,5 +1,6 @@
 import test from 'tape'
 import chrono from 'chrono-node'
+import moment from 'moment'
 import militaryRefiner from '../../refiners/militaryRefiner'
 
 const parser = new chrono.Chrono
@@ -69,6 +70,22 @@ test('supports specifying a date with year', t => {
   t.equals(results[0].start.get('day'), 11, 'day is the 11th')
   t.equals(results[0].start.get('month'), 8, 'month is 8')
   t.equals(results[0].start.get('year'), 2017, 'year is 2017')
+
+  t.equals(results[0].start.get('hour'), 11, 'start is 11 am')
+  t.equals(results[0].start.get('minute'), 0, 'start is 11:00 am')
+  t.equals(results[0].end.get('hour'), 20, 'end is 8 pm')
+  t.equals(results[0].end.get('minute'), 30, 'end is 8:30 pm')
+
+  t.end()
+})
+
+test('supports specifying an implied date', t => {
+  const results = parser.parse('Yesterday 1100-2030')
+  const yesterday = moment().subtract(1, 'day')
+
+  t.equals(results[0].start.get('day'), yesterday.date(), 'day is yesterday')
+  t.equals(results[0].start.get('month'), yesterday.month()+1, 'month is current month') // Moment starts the month count at 0 (eg. January = 0)
+  t.equals(results[0].start.get('year'), yesterday.year(), 'year is current year')
 
   t.equals(results[0].start.get('hour'), 11, 'start is 11 am')
   t.equals(results[0].start.get('minute'), 0, 'start is 11:00 am')
