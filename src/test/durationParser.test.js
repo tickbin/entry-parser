@@ -42,6 +42,33 @@ test('implied date: yesterday 5 hours', t => {
   t.end()
 })
 
+test('implied date: Yesterday 7.5 hours', t => {
+  const { date, duration, message } = durationParser('Yesterday 7.5 hours #stat #robot PR 35')
+  t.ok(moment().subtract(1, 'day').isSame(date, 'day'), 'parsed as yesterday')
+  t.equal(duration, 27000, 'parsed duration') //  7.5 hours in seconds
+  t.equal(message, '#stat #robot PR 35', 'parsed message')
+
+  t.end()
+})
+
+test('implied date: 7.5 hours Yesterday', t => {
+  const { date, duration, message } = durationParser('7.5 hours Yesterday #stat #robot PR 35')
+  t.ok(moment().subtract(1, 'day').isSame(date, 'day'), 'parsed as yesterday')
+  t.equal(duration, 27000, 'parsed duration') //  7.5 hours in seconds
+  t.equal(message, '#stat #robot PR 35', 'parsed message')
+
+  t.end()
+})
+
+test('implied date: Yesterday 7 hours', t => {
+  const { date, duration, message } = durationParser('Yesterday 7 hours #stat #robot PR 35')
+  t.ok(moment().subtract(1, 'day').isSame(date, 'day'), 'parsed as yesterday')
+  t.equal(duration, 25200, 'parsed duration') //  7 hours in seconds
+  t.equal(message, '#stat #robot PR 35', 'parsed message')
+
+  t.end()
+})
+
 test('specified date: Aug 15 5 hours', t => {
   const { date, duration } = durationParser('Aug 15 5 hours')
   t.equal(moment(date).date(), 15, 'date is the 15th day')
