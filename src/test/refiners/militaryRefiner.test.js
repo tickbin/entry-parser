@@ -1,17 +1,17 @@
 import test from 'tape'
 import chrono from 'chrono-node'
-import militaryParser from '../../parsers/militaryParser'
+import militaryRefiner from '../../refiners/militaryRefiner'
 
 const parser = new chrono.Chrono
-parser.parsers.push(militaryParser)
+parser.refiners.push(militaryRefiner)
 
 test('matches leading zeros 0800-0930', t => {
   const results = parser.parse('0800-0930 worked on things')
 
   t.equals(results[0].start.get('hour'), 8, 'start is 8 am')
   t.equals(results[0].start.get('minute'), 0, 'start is 8:00 am')
-  t.equals(results[0].end.get('hour'), 9, 'start is 9:30 am')
-  t.equals(results[0].end.get('minute'), 30, 'start is 9:30 am')
+  t.equals(results[0].end.get('hour'), 9, 'end is 9:30 am')
+  t.equals(results[0].end.get('minute'), 30, 'end is 9:30 am')
   t.end()
 })
 
@@ -20,8 +20,8 @@ test('matches non-leading zeros 1100-1300', t => {
 
   t.equals(results[0].start.get('hour'), 11, 'start is 11 am')
   t.equals(results[0].start.get('minute'), 0, 'start is 11:00 am')
-  t.equals(results[0].end.get('hour'), 13, 'start is 1:00 pm')
-  t.equals(results[0].end.get('minute'), 0, 'start is 1:00 pm')
+  t.equals(results[0].end.get('hour'), 13, 'end is 1:00 pm')
+  t.equals(results[0].end.get('minute'), 0, 'end is 1:00 pm')
   t.end()
 })
 
