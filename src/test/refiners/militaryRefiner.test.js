@@ -47,3 +47,33 @@ test('set matching text', t => {
   t.equals(results[0].index, 6, 'sets index')
   t.end()
 })
+
+test('supports specifying a date without year', t => {
+  const results = parser.parse('Aug 11 1100-2030')
+
+  t.equals(results[0].start.get('day'), 11, 'day is the 11th')
+  t.equals(results[0].start.get('month'), 8, 'month is 8')
+  t.equals(results[0].start.get('year'), 2018, 'year is 2018')
+
+  t.equals(results[0].start.get('hour'), 11, 'start is 11 am')
+  t.equals(results[0].start.get('minute'), 0, 'start is 11:00 am')
+  t.equals(results[0].end.get('hour'), 20, 'end is 8 pm')
+  t.equals(results[0].end.get('minute'), 30, 'end is 8:00 pm')
+
+  t.end()
+})
+
+test('supports specifying a date with year', t => {
+  const results = parser.parse('Aug 11 2017 1100-2030')
+
+  t.equals(results[0].start.get('day'), 11, 'day is the 11th')
+  t.equals(results[0].start.get('month'), 8, 'month is 8')
+  t.equals(results[0].start.get('year'), 2017, 'year is 2017')
+
+  t.equals(results[0].start.get('hour'), 11, 'start is 11 am')
+  t.equals(results[0].start.get('minute'), 0, 'start is 11:00 am')
+  t.equals(results[0].end.get('hour'), 20, 'end is 8 pm')
+  t.equals(results[0].end.get('minute'), 30, 'end is 8:30 pm')
+
+  t.end()
+})
