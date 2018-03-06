@@ -4,6 +4,7 @@ import requireMeridiemRefiner from './refiners/requireMeridiemRefiner'
 import impliedAMEndRefiner from './refiners/impliedAMEndRefiner'
 import impliedPMStartRefiner from './refiners/impliedPMStartRefiner'
 import dayOverlapRefiner from './refiners/dayOverlapRefiner'
+import militaryRefiner from './refiners/militaryRefiner'
 
 const parser = new chrono.Chrono(chrono.options.casualOption())
 parser.parsers.push(militaryParser)
@@ -11,6 +12,7 @@ parser.refiners.push(requireMeridiemRefiner)
 parser.refiners.push(impliedAMEndRefiner)
 parser.refiners.push(impliedPMStartRefiner)
 parser.refiners.push(dayOverlapRefiner)
+parser.refiners.push(militaryRefiner)
 
 export default function(str, ref, timezoneOffset) {
   let rslt = parser.parse(str, ref)[0]

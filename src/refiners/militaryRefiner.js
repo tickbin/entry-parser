@@ -1,41 +1,56 @@
-import chrono from 'chrono-node'
+/*
+ * When entering a date with no year followed by time in military format,
+ * the year should be the current year (not the first 4 digits of the military
+ * time).
+ *
+ * If the date is Jan 15 2018:
+ * 'Aug 11 2015-2100' should parse as 'Aug 11 2018 8:15pm - 9:00pm'
+ *
+ * If the date is Jan 15 2018:
+ * 'Aug 11 2015-0300' should parse as 'Aug 11 2018 8:15pm - August 12 2018 3:00am'
+ *
+ * See https://github.com/tickbin/tickbin/issues/27
+ */
 
-function parseTime(h24) {
-  let hour = parseInt(h24.substr(0, h24.length == 3 ? 1 : 2))
-  let minute = parseInt(h24.substr(-2))
-  return { hour, minute, }
-}
+import chrono from 'chrono-node'
+import moment from 'moment'
+import parseTime from '../helpers/parseTime'
+
 
 function refine (text, results, opt) {
-  const pattern = /([0-9]{3,4}) *- *([0-9]{3,4})/
-  const refinedResults = results.map(result => {
+  results.forEach(result => {
+    const pattern = /([0-9]{3,4}) *- *([0-9]{3,4})/
     const match = text.match(pattern)
-    if(!match) return result
+    if (!match) return result
+    if (result.start.get('year') === parseInt(match[1])) {
+      let start = parseTime(match[1])
+      let end = parseTime(match[2])
 
-    const yearMismatch = result.start.get('year').toString() === match[1]
+      const refined = new chrono.ParsedResult({
+        start: {
+          hour: start.hour,
+          minute: start.minute,
+          day: result.start.knownValues.day,
+          month: result.start.knownValues.month,
+          year: moment().year()
+        },
+        end: {
+          hour: end.hour,
+          minute: end.minute,
+          day: end.hour > start.hour
+            ? result.start.knownValues.day
+            : result.start.knownValues.day + 1,
+          month: result.start.knownValues.month,
+          year: moment().year()
+        }
+      })
 
-    let index = match.index
-    let start = parseTime(match[1])
-    let end = parseTime(match[2])
-    const newResult = new chrono.ParsedResult({
-      ref: result.ref, text: match[0], index, start: result.start, end
-    })
-
-    newResult.tags['militaryParser'] = true
-    newResult.start.assign('hour', start.hour)
-    newResult.start.assign('minute', start.minute)
-    newResult.start.assign('meridiem', newResult.start.get('hour') < 12 ? 0 : 1)
-    newResult.start.impliedValues = {
-      day: result.start.get('day'),
-      month: result.start.get('month'),
-      year: yearMismatch ? result.ref.getFullYear() : result.start.get('year')
+      result.start = refined.start
+      result.end = refined.end
     }
-    newResult.end.assign('meridiem', newResult.end.get('hour') < 12 ? 0 : 1)
-
-    return newResult
   })
 
-  return refinedResults
+  return results
 
 }
 
