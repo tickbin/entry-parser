@@ -5,7 +5,7 @@ test('military format and date without a year', t => {
   const { start, end } = parser('Aug 11 0800-1030')
 
   t.equals(start.getDate(), 11, 'day is the 11th')
-  t.equals(start.getMonth(), 7, 'month is August') // month count starts at 0 (eg. January = 0)
+  t.equals(start.getMonth(), 7, 'month is August')
   t.equals(start.getFullYear(), new Date().getFullYear(), 'year is current year')
 
   t.equals(start.getHours(), 8, 'start is 8 am')
@@ -21,7 +21,7 @@ test('military format and date without a year, day overlap', t => {
 
   t.equals(start.getDate(), 11, 'start day is the 11th')
   t.equals(end.getDate(), 12, 'end day is the 12th')
-  t.equals(start.getMonth(), 7, 'month is August') // month count starts at 0 (eg. January = 0)
+  t.equals(start.getMonth(), 7, 'month is August')
   t.equals(start.getFullYear(), new Date().getFullYear(), 'year is current year')
 
   t.equals(start.getHours(), 20, 'start is 8 pm')

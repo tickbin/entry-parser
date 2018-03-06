@@ -69,7 +69,8 @@ test('military format with implied date', t => {
   const yesterday = moment().subtract(1, 'day')
 
   t.equals(results[0].start.get('day'), yesterday.date(), 'day is yesterday')
-  t.equals(results[0].start.get('month'), yesterday.month()+1, 'month is current month') // Moment starts the month count at 0 (eg. January = 0)
+  // chrono-node starts month count at 1, add 1 to moment to match that convention
+  t.equals(results[0].start.get('month'), yesterday.month()+1, 'month is current month')
   t.equals(results[0].start.get('year'), yesterday.year(), 'year is current year')
 
   t.equals(results[0].start.get('hour'), 11, 'start is 11 am')
