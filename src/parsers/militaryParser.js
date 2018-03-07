@@ -1,12 +1,7 @@
 import chrono from 'chrono-node'
+import parseTime from '../helpers/parseTime'
 
-function parseTime(h24) {
-  let hour = parseInt(h24.substr(0, h24.length == 3 ? 1 : 2))
-  let minute = parseInt(h24.substr(-2))
-  return { hour, minute, }
-}
-
-function pattern() { 
+function pattern() {
   return /([0-9]{3,4}) *- *([0-9]{3,4})/
 }
 
@@ -14,8 +9,8 @@ function extract(text, ref, match, opt) {
   let index = match.index
   let start = parseTime(match[1])
   let end = parseTime(match[2])
-  const result = new chrono.ParsedResult({ 
-    ref, text: match[0], index, start, end,
+  const result = new chrono.ParsedResult({
+    ref, text: match[0], index, start, end
   })
   result.tags['militaryParser'] = true
   result.start.assign('meridiem', result.start.get('hour') < 12 ? 0 : 1)
