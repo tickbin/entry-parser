@@ -1,11 +1,7 @@
 import moment from 'moment'
 import chrono from 'chrono-node'
-import durationRefiner from './refiners/durationRefiner'
 
 export default function(str, timezoneOffset) {
-  const parserWithDurationRefiner = new chrono.Chrono()
-  parserWithDurationRefiner.refiners.push(durationRefiner)
-
   const patternHour   = /(\d*\.{0,1}\d+)\s*(hours|hour|hrs|hr|h)\b/i;
   const patternMin    = /(\d*\.{0,1}\d+)\s*(minutes|minute|mins|min|m)\b/i;
   const patternChrono = /(\d*):(\d+)\s*(hours|hour|hrs|hr|h)\b/i
@@ -31,7 +27,17 @@ export default function(str, timezoneOffset) {
   if (timezoneOffset)
     momentDate.utcOffset(timezoneOffset)
 
-  const parsedDate = parserWithDurationRefiner.parse(str)[0]
+  // Strip out time string from message
+  let message = str
+  .replace(patternChrono, '')
+  .replace(patternHour, '')
+  .replace(patternMin, '')
+
+  const parsedDate = chrono.parse(message)[0]
+
+  // Strip out date string from message
+  const dateStr = parsedDate ? parsedDate.text : ''
+  message = message.replace(dateStr, '').trim()
 
   if (parsedDate) {
     parsedDate.start.assign('timezoneOffset', timezoneOffset)
@@ -50,14 +56,6 @@ export default function(str, timezoneOffset) {
   .second(0)
   .millisecond(0)
   .toDate()
-
-  const text = parsedDate ? parsedDate.text : ''
-  const message = str
-  .replace(patternChrono, '')
-  .replace(patternHour, '')
-  .replace(patternMin, '')
-  .replace(text, '')
-  .trim()
 
   return { date, duration: duration.asSeconds(), message }
 }
