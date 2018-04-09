@@ -69,6 +69,50 @@ test('implied date: Yesterday 7 hours', t => {
   t.end()
 })
 
+// Please see this issue: https://github.com/tickbin/parser/issues/45
+test('parse out date: March 25 7h did some #stuff', t => {
+  const { date, duration, message } = durationParser('March 25 7h did some #stuff')
+  t.equal(moment(date).date(), 25, 'date is the 25th')
+  t.equal(moment(date).month(), 2, 'date is March')
+  t.equal(duration, 25200, 'parsed duration') //  7 hours in seconds
+  t.equal(message, 'did some #stuff', 'parsed message')
+
+  t.end()
+})
+
+// Please see this issue: https://github.com/tickbin/parser/issues/45
+test('parse out date: 7h did some #stuff March 25', t => {
+  const { date, duration, message } = durationParser('7h did some #stuff March 25')
+  t.equal(moment(date).date(), 25, 'date is the 25th')
+  t.equal(moment(date).month(), 2, 'date is March')
+  t.equal(duration, 25200, 'parsed duration') //  7 hours in seconds
+  t.equal(message, 'did some #stuff', 'parsed message')
+
+  t.end()
+})
+
+// Please see this issue: https://github.com/tickbin/parser/issues/46
+test('parse out date: March 25 6.5h #stat', t => {
+  const { date, duration, message } = durationParser('March 25 6.5h #stat')
+  t.equal(moment(date).date(), 25, 'date is the 25th')
+  t.equal(moment(date).month(), 2, 'date is March')
+  t.equal(duration, 23400, 'parsed duration') //  6.5 hours in seconds
+  t.equal(message, '#stat', 'parsed message')
+
+  t.end()
+})
+
+// Please see this issue: https://github.com/tickbin/parser/issues/46
+test('parse out date: March 25th 6h #stat', t => {
+  const { date, duration, message } = durationParser('March 25th 6h #stat')
+  t.equal(moment(date).date(), 25, 'date is the 25th')
+  t.equal(moment(date).month(), 2, 'date is March')
+  t.equal(duration, 21600, 'parsed duration') //  6 hours in seconds
+  t.equal(message, '#stat', 'parsed message')
+
+  t.end()
+})
+
 test('specified date: Aug 15 5 hours', t => {
   const { date, duration } = durationParser('Aug 15 5 hours')
   t.equal(moment(date).date(), 15, 'date is the 15th day')
