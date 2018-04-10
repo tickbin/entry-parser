@@ -1,6 +1,6 @@
 {
   "name": "tickbin-parser",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "parse strings into entries",
   "main": "build/index.js",
   "scripts": {
