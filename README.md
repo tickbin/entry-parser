@@ -1,4 +1,8 @@
-[![Build Status](https://semaphoreci.com/api/v1/twostoryrobot/entry-parser/branches/master/shields_badge.svg)](https://semaphoreci.com/twostoryrobot/entry-parser)
+# Deprecation notice
+
+**Deprecation notice:** This project and codebase are not maintained. We might revisit this again in the future, but for now the code is read-only :)
+
+# Parser
 
 A parser to take strings that look like "May 4 2-4pm I did some #stuff" and parse out all the useful information like start/end time, date, tags, etc. into an object.
 
